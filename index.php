@@ -1,0 +1,279 @@
+<?php
+session_start();
+if(isset($_SESSION['fv_logged']) && $_SESSION['fv_logged'] === true){
+    header('Location: secret.php');
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureVision | SYSTEM CRITICAL</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: VT323 for that retro terminal look -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --term-red: #ff003c;
+            --term-blue: #00f0ff;
+            --term-dark: #100005;
+            --term-glow-red: #500010;
+            --term-glow-blue: #002030;
+        }
+
+        body {
+            background-color: #000;
+            color: var(--term-red);
+            font-family: 'VT323', monospace;
+            overflow: hidden;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Matrix Background Canvas */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.25;
+        }
+
+        /* Main Container */
+        .terminal-window {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 700px;
+            background: rgba(10, 0, 5, 0.95);
+            border: 2px solid var(--term-red);
+            border-right: 2px solid var(--term-blue);
+            border-bottom: 2px solid var(--term-blue);
+            box-shadow: -5px -5px 20px var(--term-glow-red), 5px 5px 20px var(--term-glow-blue);
+            padding: 2rem;
+            margin: 1rem;
+            border-radius: 2px;
+        }
+
+        /* CRT Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.3) 50%,
+                rgba(0,0,0,0.3)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Text Effects */
+        h1 {
+            text-shadow: 2px 0 var(--term-blue), -2px 0 var(--term-red);
+            letter-spacing: 2px;
+        }
+
+        .cursor-blink {
+            animation: blink 0.5s step-end infinite;
+            background-color: var(--term-red);
+            color: black;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Form Elements */
+        input {
+            background: rgba(255, 0, 60, 0.1);
+            border: none;
+            border-left: 2px solid var(--term-red);
+            color: var(--term-blue);
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            width: 100%;
+            outline: none;
+            padding: 5px 10px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 0, 60, 0.4);
+        }
+
+        button {
+            font-family: 'VT323', monospace;
+            font-size: 1.25rem;
+            border: 1px solid var(--term-red);
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            background: transparent;
+            color: var(--term-red);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: var(--term-red);
+            color: black;
+            box-shadow: 0 0 15px var(--term-red);
+        }
+
+        /* Weird Glitch Buttons */
+        .glitch-btn {
+            border-color: var(--term-blue);
+            color: var(--term-blue);
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+        
+        .glitch-btn:hover {
+            background: var(--term-blue);
+            color: black;
+            box-shadow: 0 0 15px var(--term-blue);
+        }
+
+        /* Custom Alert Modal */
+        #custom-alert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #000;
+            border: 2px solid var(--term-red);
+            padding: 20px;
+            z-index: 2000;
+            width: 300px;
+            text-align: center;
+            box-shadow: 10px 10px 0 var(--term-blue);
+        }
+
+        #custom-alert h3 {
+            background: var(--term-red);
+            color: black;
+            margin: -20px -20px 20px -20px;
+            padding: 5px;
+        }
+
+        /* Glitch Effect Class */
+        .glitch-wrapper {
+            position: relative;
+        }
+
+        .status-message {
+            min-height: 1.5em;
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+
+        .access-granted {
+            color: var(--term-blue);
+            text-shadow: 0 0 10px var(--term-blue);
+        }
+        
+        .access-denied {
+            color: var(--term-red);
+            text-shadow: 0 0 10px var(--term-red);
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(5px); }
+            50% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Hide content initially for type animation */
+        .type-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CRT Overlay -->
+    <div class="scanlines"></div>
+    
+    <!-- Matrix Background -->
+    <canvas id="matrix-bg"></canvas>
+
+    <!-- Custom Alert Box -->
+    <div id="custom-alert">
+        <h3>SYSTEM WARNING</h3>
+        <p id="alert-msg">UNKNOWN ERROR</p>
+        <button onclick="closeAlert()" style="margin-top:15px; width:100%; border-color:var(--term-blue); color:var(--term-blue);">ACKNOWLEDGE</button>
+    </div>
+
+    <main class="terminal-window">
+        <!-- Header -->
+        <div class="border-b border-red-900 pb-4 mb-6 flex justify-between items-center text-xs opacity-70">
+            <span style="color:var(--term-blue)">ROOT_ACCESS_VIOLATION</span>
+            <span class="animate-pulse">STATUS: CRITICAL</span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="text-5xl mb-2 glitch-wrapper">
+            > FutureVision<span style="color:var(--term-blue)">.exe</span><span class="cursor-blink">_</span>
+        </h1>
+        
+        <!-- Interactive Typewriter Area -->
+        <div id="terminal-output" class="text-xl mb-8 leading-relaxed h-28 text-red-400">
+            <!-- Text injected by JS -->
+        </div>
+
+        <!-- Corrupted Buttons Section -->
+        <div id="glitch-controls" class="type-content mb-8 p-4 border border-dashed border-gray-700">
+            <p class="text-xs mb-2 text-blue-400"> > MANUAL OVERRIDE PROTOCOLS (UNSTABLE)</p>
+            <div class="flex flex-wrap gap-2">
+                <button type="button" class="glitch-btn" onclick="triggerGlitch(1)">0x1_INIT</button>
+                <button type="button" class="glitch-btn" onclick="triggerGlitch(2)">MEM_DUMP</button>
+                <button type="button" class="glitch-btn" onclick="triggerGlitch(3)">FORCE_Q</button>
+            </div>
+        </div>
+
+        <!-- The Form -->
+        <form id="loginForm" class="type-content" onsubmit="handleLogin(event)">
+            <label for="password" class="block text-xl mb-2 opacity-80" style="color:var(--term-blue)">> ENTER DECRYPTION KEY:</label>
+            <div class="relative group">
+                <input id="password" name="password" type="text" placeholder="X-X-X-X-X-X-X-X" class="pl-2" autocomplete="off">
+            </div>
+            
+            <div class="flex justify-between items-center mt-6">
+                <button type="submit">
+                    [ EXECUTE ]
+                </button>
+                <div id="status" class="status-message text-xl"></div>
+            </div>
+        </form>
+
+        <div class="mt-8 text-xs opacity-40 text-center border-t border-red-900 pt-4">
+            ERR_CONNECTION_UNSECURE // TRACE DETECTED
+        </div>
+    </main>
+
+    <script src="./assets/logic.js"></script>
+</body>
+</html>

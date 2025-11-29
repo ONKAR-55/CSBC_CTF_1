@@ -1,30 +1,33 @@
 <?php
 session_start();
-require_once 'config.php'; // loads $salt and $hash
 
-if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+// Load server-side secret (salt + stored hash)
+require_once 'config.php'; // must define $salt and $hash
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.php');
     exit;
 }
 
 $pw = isset($_POST['password']) ? $_POST['password'] : '';
 
-if($pw === ''){
+if ($pw === '') {
     echo '<p>Empty password. <a href="index.php">Back</a></p>';
     exit;
 }
 
-// Server-side check: MD5(salt + password)
+// Server-side check: md5(salt + password)
+// Note: For real production use password_hash/password_verify, but for this CTF we intentionally use a fast hash.
 $check = md5($salt . $pw);
 
-if(hash_equals($hash, $check)){
-    // success
+// Use hash_equals to avoid timing attacks (good practice)
+if (hash_equals($hash, $check)) {
     $_SESSION['fv_logged'] = true;
     header('Location: secret.php');
     exit;
 } else {
-    // intentionally verbose but not leaking
-    echo '<p>Incorrect password. Try again.</p>';
-    echo '<p><a href="index.php">Back</a></p>';
-    // optional: log attempt (disabled for CTF)
+    // keep message generic
+    echo '<p>Incorrect password. <a href="index.php">Back</a></p>';
+    exit;
 }
+?>

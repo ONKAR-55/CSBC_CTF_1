@@ -46,7 +46,7 @@ if(isset($_SESSION['fv_logged']) && $_SESSION['fv_logged'] === true){
             width: 100%;
             height: 100%;
             z-index: 0;
-            opacity: 0.25;
+            opacity: 0.4;
         }
 
         /* Main Container */
@@ -54,7 +54,7 @@ if(isset($_SESSION['fv_logged']) && $_SESSION['fv_logged'] === true){
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 700px;
+            max-width: 1400px;
             background: rgba(10, 0, 5, 0.95);
             border: 2px solid var(--term-red);
             border-right: 2px solid var(--term-blue);
@@ -62,7 +62,7 @@ if(isset($_SESSION['fv_logged']) && $_SESSION['fv_logged'] === true){
             box-shadow: -5px -5px 20px var(--term-glow-red), 5px 5px 20px var(--term-glow-blue);
             padding: 2rem;
             margin: 1rem;
-            border-radius: 2px;
+            border-radius: 5px;
         }
 
         /* CRT Scanline Effect */
@@ -233,11 +233,22 @@ if(isset($_SESSION['fv_logged']) && $_SESSION['fv_logged'] === true){
             <span style="color:var(--term-blue)">ROOT_ACCESS_VIOLATION</span>
             <span class="animate-pulse">STATUS: CRITICAL</span>
         </div>
-
+        
         <!-- Title -->
         <h1 class="text-5xl mb-2 glitch-wrapper">
             > FutureVision<span style="color:var(--term-blue)">.exe</span><span class="cursor-blink">_</span>
         </h1>
+
+        <div id="glitch-controls" class="type-content mb-8 p-4">
+            <p class="text-xs mb-2 text-blue-400"> > MANUAL OVERRIDE PROTOCOLS (UNSTABLE)</p>
+            <div class="flex flex-wrap items-center justify-between">
+                <button type="button" class="glitch-btn" onclick="triggerGlitch(1)">0x1_INIT</button>
+                <button type="button" class="glitch-btn" onclick="triggerGlitch(2)">MEM_DUMP</button>
+                <button type="button" class="glitch-btn" onclick="triggerGlitch(3)">FORCE_Q</button>
+                <button type="button" class="glitch-btn" onclick="triggerGlitch(4)">SYS_RESTORE</button>
+                <button type="button" class="glitch-btn" onclick="triggerGlitch(5)">CORE_BYPASS</button>
+            </div>
+        </div>
         
         <!-- Interactive Typewriter Area -->
         <div id="terminal-output" class="text-xl mb-8 leading-relaxed h-28 text-red-400">
@@ -245,20 +256,12 @@ if(isset($_SESSION['fv_logged']) && $_SESSION['fv_logged'] === true){
         </div>
 
         <!-- Corrupted Buttons Section -->
-        <div id="glitch-controls" class="type-content mb-8 p-4 border border-dashed border-gray-700">
-            <p class="text-xs mb-2 text-blue-400"> > MANUAL OVERRIDE PROTOCOLS (UNSTABLE)</p>
-            <div class="flex flex-wrap gap-2">
-                <button type="button" class="glitch-btn" onclick="triggerGlitch(1)">0x1_INIT</button>
-                <button type="button" class="glitch-btn" onclick="triggerGlitch(2)">MEM_DUMP</button>
-                <button type="button" class="glitch-btn" onclick="triggerGlitch(3)">FORCE_Q</button>
-            </div>
-        </div>
 
         <!-- The Form -->
-        <form id="loginForm" class="type-content" onsubmit="handleLogin(event)">
-            <label for="password" class="block text-xl mb-2 opacity-80" style="color:var(--term-blue)">> ENTER DECRYPTION KEY:</label>
+        <form id="loginForm" class="type-content" action="login.php" method="post" autocomplete="off">
+            <label for="password" class="block text-xl mb-2 opacity-80" style="color:var(--term-blue)">> ENTER PASSWORD:</label>
             <div class="relative group">
-                <input id="password" name="password" type="text" placeholder="X-X-X-X-X-X-X-X" class="pl-2" autocomplete="off">
+                <input id="password" name="password" type="text" placeholder="P-A-S-S-W-O-R-D" class="pl-2 underline" autocomplete="off">
             </div>
             
             <div class="flex justify-between items-center mt-6">

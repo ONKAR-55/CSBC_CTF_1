@@ -1,4 +1,4 @@
-        // --- 1. Matrix Rain (Red & Blue Mix) ---
+// --- 1. Matrix Rain (Red & Blue Mix) ---
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
 
@@ -79,6 +79,7 @@
         setTimeout(typeWriter, 500);
 
         // --- 3. Weird Glitch Alerts & Password Fragments ---
+        
         function triggerGlitch(id) {
             const alertBox = document.getElementById('custom-alert');
             const alertMsg = document.getElementById('alert-msg');
@@ -90,16 +91,23 @@
             
             let message = "";
             let logMsg = "";
-            
+
+
             if (id === 1) {
-                message = "ERR_ADDR_0x00A: SEGMENT_VIOLATION <br><br> DATA: [ !W ]";
-                logMsg = "System Dump 0x01: Start sequence identified as '!W'";
+                message = `ERR_ADDR_0x00A: SEGMENT_VIOLATION <br><br> DATA: [ !W ]`;
+                logMsg = `System Dump 0x01: Start sequence fragment found: '!W'`;
             } else if (id === 2) {
-                message = "BUFFER_OVERFLOW @ NET_PROTOCOL <br><br> PAYLOAD: [ @n+ ]";
-                logMsg = "Network Packet Intercepted: Middle payload '@n+' found in stream.";
+                message = `BUFFER_OVERFLOW @ NET_PROTOCOL <br><br> ERROR: [ @+ ]`;
+                logMsg = `Network Packet Intercepted: Fragment anidentified.`;
             } else if (id === 3) {
-                message = "KERNEL_PANIC: HASH_MISMATCH <br><br> END_BLOCK: [ F1@9 ]";
-                logMsg = "Critical Kernel Failure. Final memory block dump: 'F1@9'";
+                message = `KERNEL_PANIC: HASH_MISMATCH <br><br> END_BLOCK: [ n9F ]`;
+                logMsg = `Critical Kernel Failure. Memory fragment 'n9F' extracted.`;
+            } else if (id === 4) {
+                message = `UNAUTHORIZED_ACCESS DETECTED <br><br> CREDENTIALS LEAKED Found Leak 0X]`;
+                logMsg = `Security Alert: Leak contains fragment '@'.`;
+            } else if (id === 5) {
+                message = `DATA_CORRUPTION WARNING <br><br> FRAGMENT LOST: [ 1 ]`;
+                logMsg = `Data Integrity Check Failed. Lost fragment identifier: '1'.`;
             }
 
             // Show Custom Alert
@@ -120,32 +128,12 @@
             e.preventDefault();
             const input = document.getElementById('password');
             const status = document.getElementById('status');
-            const userPass = input.value;
             
             status.innerHTML = "VERIFYING CHECKSUM...";
             status.className = "status-message text-blue-400";
 
-            setTimeout(() => {
-                // New Password check
-                if (userPass === '!W@n+F1@9') {
-                    status.innerHTML = "ACCESS GRANTED. TIMELINE RESTORED.";
-                    status.className = "status-message access-granted";
-                    input.disabled = true;
-                    
-                    document.body.innerHTML = `
-                        <div style="text-align:center; font-family:'VT323'; color:#00f0ff; font-size: 2rem; border: 2px solid #00f0ff; padding: 40px; background: rgba(0,0,50,0.9);">
-                            <h1 style="color:#fff; text-shadow:0 0 20px #00f0ff">WELCOME TO THE FUTURE</h1>
-                            <p style="color:#ff003c">YOU ARE THE OPERATOR</p>
-                            <div style="font-size:1rem; color:#aaa; margin-top:20px;">Flag Captured: {F1AG_R3D_BLU3_T3AM}</div>
-                            <button onclick="location.reload()" style="background:#ff003c; color:black; border:none; padding:10px 20px; cursor:pointer; font-family:'VT323'; font-size:1.5rem; margin-top:20px;">REBOOT</button>
-                        </div>
-                    `;
+            document.getElementById('loginForm').submit();
 
-                } else {
-                    status.innerHTML = "ACCESS DENIED. INCORRECT KEY.";
-                    status.className = "status-message access-denied";
-                    input.value = '';
-                    input.focus();
-                }
+            setTimeout(() => {
             }, 1000);
         }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: VT323 for that retro terminal look -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
             --term-red: #ff003c;
@@ -64,13 +65,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                to bottom,
-                rgba(255,255,255,0),
-                rgba(255,255,255,0) 50%,
-                rgba(0,0,0,0.3) 50%,
-                rgba(0,0,0,0.3)
-            );
+            background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 0) 50%,
+                    rgba(0, 0, 0, 0.3) 50%,
+                    rgba(0, 0, 0, 0.3));
             background-size: 100% 4px;
             pointer-events: none;
             z-index: 999;
@@ -89,8 +88,15 @@
         }
 
         @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
 
         /* Form Elements */
@@ -137,8 +143,9 @@
             color: var(--term-blue);
             font-size: 1rem;
             margin-right: 10px;
+            padding: 0.4rem 1rem;
         }
-        
+
         .glitch-btn:hover {
             background: var(--term-blue);
             color: black;
@@ -183,7 +190,7 @@
             color: var(--term-blue);
             text-shadow: 0 0 10px var(--term-blue);
         }
-        
+
         .access-denied {
             color: var(--term-red);
             text-shadow: 0 0 10px var(--term-red);
@@ -191,24 +198,91 @@
         }
 
         @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(5px); }
-            50% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-            100% { transform: translateX(0); }
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(5px);
+            }
+
+            50% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
         }
 
         /* Hide content initially for type animation */
         .type-content {
             display: none;
         }
+
+        /* Add this to your existing <style> block */
+        .glitch-text {
+            position: relative;
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--term-blue);
+            text-shadow: 2px 0 var(--term-red), -2px 0 var(--term-red);
+            letter-spacing: 3px;
+            animation: glitch-anim 2s infinite;
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                text-shadow: 2px 0 var(--term-red), -2px 0 var(--term-blue);
+            }
+
+            50% {
+                text-shadow: -2px 0 var(--term-blue), 2px 0 var(--term-red);
+            }
+
+            100% {
+                text-shadow: 2px 0 var(--term-red), -2px 0 var(--term-blue);
+            }
+        }
+
+        .sub-text {
+            font-size: 1.5rem;
+            color: var(--term-red);
+            letter-spacing: 2px;
+            animation: pulse-glow 1.5s ease-in-out infinite;
+            margin-top: 5px;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                opacity: 0.7;
+                text-shadow: 0 0 5px var(--term-red);
+            }
+
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 20px var(--term-red), 0 0 30px var(--term-blue);
+            }
+        }
+
+        .location-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- CRT Overlay -->
     <div class="scanlines"></div>
-    
+
     <!-- Matrix Background -->
     <canvas id="matrix-bg"></canvas>
 
@@ -216,21 +290,29 @@
     <div id="custom-alert">
         <h3>SYSTEM WARNING</h3>
         <p id="alert-msg">UNKNOWN ERROR</p>
-        <button onclick="closeAlert()" style="margin-top:15px; width:100%; border-color:var(--term-blue); color:var(--term-blue);">Reverse</button>
+        <button onclick="closeAlert()"
+            style="margin-top:15px; width:100%; border-color:var(--term-blue); color:var(--term-blue);">Revert</button>
     </div>
 
     <main class="terminal-window">
-        <!-- Header -->
+        <!-- Header with Location -->
+        <div class="location-header">
+            <div class="glitch-text">INDIA</div>
+            <div class="sub-text">NEW DELHI</div>
+        </div>
+
+        <!-- Original Header -->
         <div class="border-b border-red-900 pb-4 mb-6 flex justify-between items-center text-xs opacity-70">
             <span style="color:var(--term-blue)">ROOT_ACCESS_VIOLATION</span>
             <span class="animate-pulse">STATUS: CRITICAL</span>
         </div>
-        
+
         <!-- Title -->
         <h1 class="text-5xl mb-2 glitch-wrapper">
             > FutureVision<span style="color:var(--term-blue)">.exe</span><span class="cursor-blink">_</span>
         </h1>
 
+        <!-- Buttons -->
         <div id="glitch-controls" class="type-content mb-8 p-4">
             <p class="text-xs mb-2 text-blue-400"> > MANUAL OVERRIDE PROTOCOLS (UNSTABLE)</p>
             <div class="flex flex-wrap items-center justify-between">
@@ -241,7 +323,7 @@
                 <button type="button" class="glitch-btn" onclick="triggerGlitch(5)">CORE_BYPASS</button>
             </div>
         </div>
-        
+
         <!-- Interactive Typewriter Area -->
         <div id="terminal-output" class="text-xl mb-8 leading-relaxed h-28 text-red-400">
             <!-- Text injected by JS -->
@@ -251,11 +333,13 @@
 
         <!-- The Form -->
         <form id="loginForm" class="type-content" action="handleLogin" method="POST" onsubmit="handleLogin(event)">
-            <label for="password" class="block text-xl mb-2 opacity-80" style="color:var(--term-blue)">> ENTER PASSWORD:</label>
+            <label for="password" class="block text-xl mb-2 opacity-80" style="color:var(--term-blue)">> ENTER
+                PASSWORD:</label>
             <div class="relative group">
-                <input id="password" name="password" type="text" placeholder="P-A-S-S-W-O-R-D" class="pl-2 underline" autocomplete="off">
+                <input id="password" name="password" type="text" placeholder="X-X-X-X-X-X-X-X-X" class="pl-2 underline"
+                    autocomplete="off">
             </div>
-            
+
             <div class="flex justify-between items-center mt-6">
                 <button type="submit">
                     [ EXECUTE ]
@@ -271,4 +355,5 @@
 
     <script src="./assets/logic.js"></script>
 </body>
+
 </html>

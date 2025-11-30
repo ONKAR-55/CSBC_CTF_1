@@ -250,7 +250,7 @@
         <!-- Corrupted Buttons Section -->
 
         <!-- The Form -->
-        <form id="loginForm" class="type-content">
+        <form id="loginForm" class="type-content" action="handleLogin" method="POST" onsubmit="handleLogin(event)">
             <label for="password" class="block text-xl mb-2 opacity-80" style="color:var(--term-blue)">> ENTER PASSWORD:</label>
             <div class="relative group">
                 <input id="password" name="password" type="text" placeholder="P-A-S-S-W-O-R-D" class="pl-2 underline" autocomplete="off">

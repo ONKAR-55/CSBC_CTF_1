@@ -125,43 +125,58 @@ function closeAlert() {
 
 // --- 4. Login Logic ---
 function handleLogin(e) {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
+
     const input = document.getElementById('password');
     const status = document.getElementById('status');
+    const alertBox = document.getElementById('custom-alert');
+    const alertMsg = document.getElementById('alert-msg');
 
-    status.innerHTML = "VERIFYING CHECKSUM...";
-    status.className = "status-message text-blue-400";
+    const userPass = input ? input.value.trim() : '';
 
-    if (input.value === "") {
-        status.innerHTML = "PASSWORD CANNOT BE EMPTY!";
-        status.className = "status-message text-red-500";
+    // If the input is empty, show a warning alert and do nothing
+    if (!userPass) {
+        alertMsg.innerHTML = '<strong>WARNING</strong><br>Please enter a password.';
+        alertBox.style.display = 'block';
+        if (status) {
+            status.textContent = '';
+            status.className = 'status-message';
+        }
         return;
     }
 
-    document.getElementById("loginForm").addEventListener("submit", async function (e) {
-        e.preventDefault();
+    if (status) {
+        status.textContent = 'VERIFYING CHECKSUM...';
+        status.className = 'status-message text-blue-400';
+    }
 
-        let pass = document.getElementById("password").value;
-        let msg = document.getElementById("msg");
-
-        msg.textContent = "Verifying...";
-
-        let response = await fetch("auth.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ password: pass })
-        });
-
-        let data = await response.json();
-
-        if (data.status === "ok") {
-            window.location = "secret.php";
+    // Send password to server (login.php expects JSON body)
+    fetch('login.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: userPass })
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        if (data && data.status === 'ok') {
+            window.location.href = 'secret.php';
+        } else if (data && data.status === 'error') {
+            if (status) {
+                status.textContent = data.message || 'Error';
+                status.className = 'status-message access-denied';
+            }
         } else {
-            msg.textContent = "Incorrect Password!";
+            if (status) {
+                status.textContent = 'Incorrect Password!';
+                status.className = 'status-message access-denied';
+            }
+        }
+    })
+    .catch(err => {
+        console.error('Login request failed', err);
+        if (status) {
+            status.textContent = 'Network Error';
+            status.className = 'status-message access-denied';
         }
     });
-
-
-    setTimeout(() => {
-    }, 1000);
 }

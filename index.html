@@ -1,11 +1,3 @@
-<?php
-session_start();
-if(isset($_SESSION['fv_logged']) && $_SESSION['fv_logged'] === true){
-    header('Location: secret.php');
-    exit;
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -224,7 +216,7 @@ if(isset($_SESSION['fv_logged']) && $_SESSION['fv_logged'] === true){
     <div id="custom-alert">
         <h3>SYSTEM WARNING</h3>
         <p id="alert-msg">UNKNOWN ERROR</p>
-        <button onclick="closeAlert()" style="margin-top:15px; width:100%; border-color:var(--term-blue); color:var(--term-blue);">ACKNOWLEDGE</button>
+        <button onclick="closeAlert()" style="margin-top:15px; width:100%; border-color:var(--term-blue); color:var(--term-blue);">Reverse</button>
     </div>
 
     <main class="terminal-window">
@@ -258,7 +250,7 @@ if(isset($_SESSION['fv_logged']) && $_SESSION['fv_logged'] === true){
         <!-- Corrupted Buttons Section -->
 
         <!-- The Form -->
-        <form id="loginForm" class="type-content" action="login.php" method="post" autocomplete="off">
+        <form id="loginForm" class="type-content">
             <label for="password" class="block text-xl mb-2 opacity-80" style="color:var(--term-blue)">> ENTER PASSWORD:</label>
             <div class="relative group">
                 <input id="password" name="password" type="text" placeholder="P-A-S-S-W-O-R-D" class="pl-2 underline" autocomplete="off">

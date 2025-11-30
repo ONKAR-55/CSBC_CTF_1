@@ -1,10 +1,11 @@
 <?php
 session_start();
-if(!isset($_SESSION['fv_logged']) || $_SESSION['fv_logged'] !== true){
-    header('Location: index.php');
+if (!isset($_SESSION["logged_in"])) {
+    header("Location: index.php");
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,5 +1,0 @@
-<?php
-// backup file intentionally left accessible for challenge
-$salt = 'FUTURE_2025_';
-$hash = 'a48b2cf3c2ec21cf71c7f13dca5e52a5';
-?>

@@ -133,19 +133,19 @@ function triggerGlitch(id) {
     // THE BRANCHING PATH: Choose wisely or don't
     if (id === 1) {
         // Error code: sounds like a recipe
-        message = `ERR_ADDR_0x00A: SEGMENT_VIOLATION <br><br> DATA: [ !W ]`;
-        logMsg = `System Dump 0x01: Start sequence fragment found: '!W'`;
+        message = `ERR_ADDR_0x00A: SEGMENT_VIOLATION <br><br> DATA: [ !w  ]`;
+        logMsg = `System Dump 0x01: Start sequence fragment found: '!w'`;
     } else if (id === 2) {
         // Network problems: same as romance problems
         message = `BUFFER_OVERFLOW @ NET_PROTOCOL <br><br> ERROR: [ @+ ]`;
         logMsg = `Network Packet Intercepted: Fragment anidentified.`;
     } else if (id === 3) {
         // Kernel: the popcorn of the OS
-        message = `KERNEL_PANIC: HASH_MISMATCH <br><br> END_BLOCK: [ n9F ]`;
-        logMsg = `Critical Kernel Failure. Memory fragment 'n9F' extracted.`;
+        message = `KERNEL_PANIC: HASH_MISMATCH <br><br> END_BLOCK: [ n9f ]`;
+        logMsg = `Critical Kernel Failure. Memory fragment 'n9f' extracted.`;
     } else if (id === 4) {
         // Authorization: a construct of society
-        message = `UNAUTHORIZED_ACCESS DETECTED <br><br> CREDENTIALS LEAKED Found Leak 0X]`;
+        message = `UNAUTHORIZED_ACCESS DETECTED <br><br> CREDENTIALS LEAKED Found Leak F12]`;
         logMsg = `Security Alert: Leak contains fragment '@'.`;
     } else if (id === 5) {
         // Corruption: inevitable and beautiful

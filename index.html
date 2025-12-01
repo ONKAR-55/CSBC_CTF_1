@@ -106,7 +106,7 @@
             border-left: 2px solid var(--term-red);
             color: var(--term-blue);
             font-family: 'VT323', monospace;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             width: 100%;
             outline: none;
             padding: 5px 10px;
@@ -141,7 +141,7 @@
         .glitch-btn {
             border-color: var(--term-blue);
             color: var(--term-blue);
-            font-size: 1rem;
+            font-size: 1.2rem;
             margin-right: 10px;
             padding: 0.4rem 1rem;
         }
@@ -236,17 +236,11 @@
         }
 
         @keyframes glitch-anim {
-            0% {
-                text-shadow: 2px 0 var(--term-red), -2px 0 var(--term-blue);
-            }
+            0% {text-shadow: 2px 0 var(--term-red), -2px 0 var(--term-blue);}
 
-            50% {
-                text-shadow: -2px 0 var(--term-blue), 2px 0 var(--term-red);
-            }
+            50% {text-shadow: -2px 0 var(--term-blue), 2px 0 var(--term-red);}
 
-            100% {
-                text-shadow: 2px 0 var(--term-red), -2px 0 var(--term-blue);
-            }
+            100% {text-shadow: 2px 0 var(--term-red), -2px 0 var(--term-blue);}
         }
 
         .sub-text {
@@ -313,7 +307,7 @@
         </h1>
 
         <!-- Buttons -->
-        <div id="glitch-controls" class="type-content mb-8 p-4">
+        <div id="glitch-controls" class="type-content p-4">
             <p class="text-xs mb-2 text-blue-400"> > MANUAL OVERRIDE PROTOCOLS (UNSTABLE)</p>
             <div class="flex flex-wrap items-center justify-between">
                 <button type="button" class="glitch-btn" onclick="triggerGlitch(1)">0x1_INIT</button>
@@ -325,22 +319,18 @@
         </div>
 
         <!-- Interactive Typewriter Area -->
-        <div id="terminal-output" class="text-xl mb-8 leading-relaxed h-28 text-red-400">
+        <div id="terminal-output" class="text-2xl mb-10 leading-relaxed h-28 text-red-400">
             <!-- Text injected by JS -->
         </div>
 
-        <!-- Corrupted Buttons Section -->
-
         <!-- The Form -->
         <form id="loginForm" class="type-content" action="handleLogin" method="POST" onsubmit="handleLogin(event)">
-            <label for="password" class="block text-xl mb-2 opacity-80" style="color:var(--term-blue)">> ENTER
-                PASSWORD:</label>
+            <label for="password" class="text-xl mb-1 mt-8 opacity-80" style="color:var(--term-blue)">> ENTER PASSWORD:</label>
             <div class="relative group">
-                <input id="password" name="password" type="text" placeholder="X-X-X-X-X-X-X-X-X" class="pl-2 underline"
-                    autocomplete="off">
+                <input id="password" name="password" type="text" placeholder="X-X-X-X-X-X-X-X-X" class="pl-4 underline" autocomplete="off">
             </div>
 
-            <div class="flex justify-between items-center mt-6">
+            <div class="flex justify-between items-center">
                 <button type="submit">
                     [ EXECUTE ]
                 </button>
